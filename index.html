@@ -57,38 +57,99 @@
            box-shadow:inset 0 0 0 1px rgba(56,189,248,.35), 0 4px 12px -6px rgba(6,182,212,.5); }
   .badge i { width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 0 3px rgba(52,211,153,.25); }
 
-  /* timer ring & water glass orb */
-  .timer { position:relative; width:140px; height:140px; margin:16px auto 14px; }
-  .tr1, .tr2, .tpg { position:absolute; top:0;right:0;bottom:0;left:0; }
-  .tr1 svg, .tr2 svg, .tpg svg { width:100%; height:100%; display:block; overflow:visible; }
-  .tr1 { animation:spin 6s linear infinite; }
-  .tr2 { animation:spin 16s linear infinite reverse; }
-  .tpg { transform:rotate(-90deg); }
-  .pgc { fill:none; stroke-width:5.5; }
-  .pgc.t { stroke:rgba(6,182,212,.2); }
-  .pgc.p { stroke:url(#gp); stroke-linecap:round; stroke-dasharray:351.8; stroke-dashoffset:351.8; }
-  .run .pgc.p { animation:dash 5s linear forwards; }
-  @keyframes dash { to { stroke-dashoffset:0; } }
+  /* -------------- CYBER MATRIX CORE ANIMATION -------------- */
+  .core-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 18px auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-  .orb { position:absolute; top:20px;right:20px;bottom:20px;left:20px; border-radius:50%; overflow:hidden; isolation:isolate;
-         -webkit-mask-image:-webkit-radial-gradient(white,black);
-         background:radial-gradient(circle at 32% 24%,rgba(255,255,255,.2),rgba(255,255,255,.05) 42%,rgba(10,15,30,.85));
-         box-shadow:0 12px 24px -10px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.2); }
-  .liquid { position:absolute; left:0; right:0; top:0; height:200%; transform:translateY(50%); will-change:transform; }
-  .run .liquid { animation:fill 5s linear forwards; }
-  @keyframes fill { from { transform:translateY(50%); } to { transform:translateY(-6%); } }
-  .wv { position:absolute; left:0; top:0; width:200%; height:7%; display:block; will-change:transform; }
-  .wf { fill:#06b6d4; animation:slide 3.2s linear infinite; }
-  .wb { fill:#67e8f9; top:-1.4%; animation:slide 5.4s linear infinite reverse; }
-  @keyframes slide { to { transform:translateX(-50%); } }
-  .body { position:absolute; left:0; right:0; top:6.3%; bottom:0; background:linear-gradient(180deg,#06b6d4,#3b82f6); }
-  .orb::before { content:""; position:absolute; top:0;right:0;bottom:0;left:0; border-radius:50%; z-index:3; pointer-events:none;
-         box-shadow:inset 0 -12px 22px rgba(0,0,0,.4), inset 0 8px 16px rgba(255,255,255,.3); }
-  .num { position:absolute; top:0;right:0;bottom:0;left:0; z-index:4; display:flex; align-items:center; justify-content:center;
-         font-size:38px; font-weight:700; letter-spacing:-.03em; font-variant-numeric:tabular-nums;
-         color:#ffffff; text-shadow:0 2px 6px rgba(0,0,0,.7); }
-  .num.pop { animation:pop .35s cubic-bezier(.22,1,.36,1); }
+  /* Outer glowing rotating ring */
+  .core-ring {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 2px dashed rgba(6, 182, 212, 0.4);
+    animation: rotateRing 8s linear infinite;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+  }
+  @keyframes rotateRing { 100% { transform: rotate(360deg); } }
+
+  /* Inner pulsating energy aura */
+  .core-pulse {
+    position: absolute;
+    width: 80%; height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(236, 72, 153, 0.15) 60%, transparent 80%);
+    animation: pulseCore 2s ease-in-out infinite alternate;
+  }
+  @keyframes pulseCore {
+    0% { transform: scale(0.85); opacity: 0.5; }
+    100% { transform: scale(1.1); opacity: 0.9; }
+  }
+
+  /* Cyber Scanning Arc */
+  .core-arc {
+    position: absolute;
+    width: 110%; height: 110%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #38bdf8;
+    border-bottom-color: #ec4899;
+    animation: rotateArc 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+  @keyframes rotateArc { 100% { transform: rotate(720deg); } }
+
+  /* Countdown & Progress Overlay inside Core */
+  .core-info {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .num {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+  }
+  .num.pop { animation: pop .35s cubic-bezier(.22,1,.36,1); }
   @keyframes pop { from { transform:scale(.8); opacity:.2; } to { transform:none; opacity:1; } }
+
+  .pct-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    letter-spacing: 1px;
+    margin-top: -2px;
+  }
+
+  /* Progress Bar Below Core */
+  .progress-wrap {
+    width: 85%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 0 auto 16px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
+    border-radius: 10px;
+    transition: width 1s linear;
+    box-shadow: 0 0 10px #06b6d4;
+  }
 
   h2 { margin:0 0 4px; font-size:17px; font-weight:650; letter-spacing:-.015em; color:#ffffff; }
   .sub { margin:0 0 16px; font-size:13px; color:#cbd5e1; font-weight:500; }
@@ -126,30 +187,27 @@
     <h1 class="brand">ʜᴀʀɪ ᴍᴏᴠɪᴇᴢ</h1>
     <div class="badge"><i></i> ꜱᴇᴄᴜʀᴇᴅ &amp; ᴠᴇʀɪғɪᴇᴅ ʟɪɴᴋ</div>
 
-    <div class="timer">
-      <div class="tr1"><svg viewBox="0 0 140 140"><defs>
-        <linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
-        <linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#67e8f9"/><stop offset="1" stop-color="#2563eb"/></linearGradient></defs>
-        <circle cx="70" cy="70" r="66" fill="none" stroke="url(#ga)" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="160 260"/></svg></div>
-      <div class="tr2"><svg viewBox="0 0 140 140">
-        <circle cx="70" cy="70" r="61" fill="none" stroke="rgba(56,189,248,.40)" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="1.5 7"/></svg></div>
-      <div class="tpg"><svg viewBox="0 0 140 140">
-        <circle class="pgc t" cx="70" cy="70" r="56"></circle>
-        <circle class="pgc p" cx="70" cy="70" r="56"></circle></svg></div>
-      <div class="orb">
-        <div class="liquid">
-          <div class="body"></div>
-          <svg class="wv wb" viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M0 10 Q25 0 50 10 T100 10 T150 10 T200 10 V20 H0 Z"/></svg>
-          <svg class="wv wf" viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M0 10 Q25 0 50 10 T100 10 T150 10 T200 10 V20 H0 Z"/></svg>
-        </div>
+    <!-- Cyber Matrix Core Loader -->
+    <div class="core-container">
+      <div class="core-ring"></div>
+      <div class="core-pulse"></div>
+      <div class="core-arc"></div>
+      
+      <div class="core-info">
+        <div class="num" id="n">10</div>
+        <div class="pct-text" id="pctText">0%</div>
       </div>
-      <div class="num" id="n">5</div>
     </div>
 
-    <h2>ꜱᴇᴄᴜʀɪᴛʏ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ</h2>
-    <p class="sub" id="status-text">ꜱᴄᴀɴɴɪɴɢ ʟɪɴᴋ...</p>
+    <!-- Live Progress Bar -->
+    <div class="progress-wrap">
+      <div class="progress-fill" id="pFill"></div>
+    </div>
 
-    <a class="btn wait" id="go" href="#" rel="noreferrer"><span class="spin" id="sp"></span><span id="gt">ᴠᴇʀɪғʏɪɴɢ…</span></a>
+    <h2>ᴘʟᴇᴀsᴇ wᴀɪᴛ wʜɪʟᴇ ᴏᴘᴇɴɪɴɢ lɪɴᴋ...</h2>
+    <p class="sub" id="status-text">⚡ ʏᴏᴜʀ lɪɴᴋ ɪs aʟᴍᴏsᴛ rᴇᴀᴅʏ...</p>
+
+    <a class="btn wait" id="go" href="#" rel="noreferrer"><span class="spin" id="sp"></span><span id="gt">ᴘʟᴇᴀsᴇ wᴀɪᴛ…</span></a>
     <a class="btn ghost" href="https://t.me/hari_moviez" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>⚡ ʜᴀʀɪ ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ ✨</a>
 
     <div class="foot">⚡ ʜᴀʀɪ ᴍᴏᴠɪᴇᴢ ꜱᴇᴄᴜʀɪᴛʏ</div>
@@ -206,8 +264,11 @@
   goBtn.href = decodedTargetUrl;
   document.getElementById("card").classList.add("run");
 
-  let timeLeft = 5;
+  let totalTime = 10;
+  let timeLeft = totalTime;
   const numEl = document.getElementById("n");
+  const pctEl = document.getElementById("pctText");
+  const pFillEl = document.getElementById("pFill");
   const gtEl = document.getElementById("gt");
   const spEl = document.getElementById("sp");
 
@@ -216,23 +277,32 @@
   const countdown = setInterval(() => {
     timeLeft--;
     
+    const progressPct = Math.round(((totalTime - timeLeft) / totalTime) * 100);
+    pFillEl.style.width = progressPct + "%";
+    pctEl.textContent = progressPct + "%";
+
     if (timeLeft >= 0) {
       numEl.textContent = timeLeft;
       numEl.classList.remove("pop");
       void numEl.offsetWidth;
       numEl.classList.add("pop");
 
-      if (timeLeft <= 2) {
-        statusElement.textContent = "Redirecting in progress...";
+      if (timeLeft <= 3) {
+        statusElement.textContent = "🚀 Opening destination link...";
+      } else if (timeLeft <= 6) {
+        statusElement.textContent = "🔓 Decrypting secure token...";
       } else {
-        statusElement.textContent = "Scanning Link...";
+        statusElement.textContent = "⚡ Your link is almost ready...";
       }
     }
 
     if (timeLeft <= 0) {
       clearInterval(countdown);
       numEl.textContent = "0";
-      statusElement.textContent = "Redirecting...";
+      pctEl.textContent = "100%";
+      pFillEl.style.width = "100%";
+      statusElement.textContent = "✨ Redirecting now...";
+      
       goBtn.className = "btn ready";
       spEl.style.display = "none";
       gtEl.textContent = "Proceed to Destination \u2192";
